@@ -15,7 +15,7 @@ function TopBar({ onHome, children }) {
   return (
     <header className="top">
       <button className="brand" onClick={onHome} aria-label={t('home')}>
-        <img src="/logo.svg" alt="" width="32" height="32" />
+        <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="" width="32" height="32" />
         {lang === 'ar' ? 'صلة' : 'Sila'}
       </button>
       {children}
