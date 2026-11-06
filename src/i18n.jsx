@@ -7,6 +7,10 @@ const UI = {
   start: { fr: 'Commencer', ar: 'ابدأ' },
   soon: { fr: 'Bientôt', ar: 'قريبا' },
   slidesCount: { fr: '{x} diapositives', ar: '{x} شرائح' },
+  modulesCount: { fr: '{x} modules', ar: '{x} وحدات' },
+  modules: { fr: 'Modules', ar: 'الوحدات' },
+  finish: { fr: 'Terminer ✓', ar: 'إنهاء ✓' },
+  nothingSent: { fr: '(rien n’est envoyé)', ar: '(لا يرسل شيء)' },
   prev: { fr: '← Précédent', ar: '→ السابق' },
   next: { fr: 'Suivant →', ar: 'التالي ←' },
   docs: { fr: 'Documentation officielle : {x}', ar: 'التوثيق الرسمي: {x}' },
@@ -64,16 +68,20 @@ export function useT() {
 }
 
 // Termes latins et symboles de code à isoler dans une phrase arabe.
-const LATIN_TERM = /(\$?[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*|\$|=)/g
+const LATIN_TERM = /(<\?php|<\?=|\?>|\/\*|\*\/|\/\/|\$?[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*|\$|=|;|#)/g
 
-// Affiche un texte traduit. En arabe, chaque terme latin est isolé pour garder
-// le bon ordre de lecture, y compris la ponctuation qui le suit.
+const term = (key, part) => <bdi key={key} dir="ltr" className="term">{part}</bdi>
+
+// Affiche un texte traduit.
+// - `code` entre accents graves devient un seul bloc de code, dans les deux langues.
+// - En arabe, chaque autre terme latin est isolé pour garder le bon ordre de lecture.
 export function T({ v, x }) {
   const { lang } = useLang()
   const t = useT()
   const text = t(v).replace('{x}', x ?? '')
-  if (lang !== 'ar') return text
-  return text.split(LATIN_TERM).map((part, i) =>
-    i % 2 === 1 ? <bdi key={i} dir="ltr" className="term">{part}</bdi> : part,
-  )
+  return text.split(/`([^`]+)`/).flatMap((chunk, i) => {
+    if (i % 2 === 1) return [term('c' + i, chunk)]
+    if (lang !== 'ar') return [chunk]
+    return chunk.split(LATIN_TERM).map((part, j) => (j % 2 === 1 ? term(i + '-' + j, part) : part))
+  })
 }

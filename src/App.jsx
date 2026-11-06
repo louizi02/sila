@@ -6,8 +6,9 @@ import VariableSlide from './slides/VariableSlide.jsx'
 import RulesSlide from './slides/RulesSlide.jsx'
 import CalcSlide from './slides/CalcSlide.jsx'
 import ConfigSlide from './slides/ConfigSlide.jsx'
+import FlowSlide from './slides/FlowSlide.jsx'
 
-const slideTypes = { variable: VariableSlide, rules: RulesSlide, calc: CalcSlide, config: ConfigSlide }
+const slideTypes = { variable: VariableSlide, rules: RulesSlide, calc: CalcSlide, config: ConfigSlide, flow: FlowSlide }
 
 function TopBar({ onHome, children }) {
   const { lang, setLang } = useLang()
@@ -27,15 +28,52 @@ function TopBar({ onHome, children }) {
   )
 }
 
-function CourseView({ course, onHome }) {
+function ModuleList({ course, onOpen }) {
+  const t = useT()
+  return (
+    <main className="stage">
+      <div className="slide">
+        <h1><T v={course.title} /></h1>
+        <p className="lead"><T v={course.lead} /></p>
+        <ol className="modules">
+          {course.modules.map((m, i) => {
+            const ready = m.slides.length > 0
+            const body = (
+              <>
+                <span className="mod-num" dir="ltr">{String(i + 1).padStart(2, '0')}</span>
+                <span className="mod-body">
+                  <strong><T v={m.title} /></strong>
+                  <span className="mod-notions"><T v={m.notions} /></span>
+                </span>
+                <span className={'badge' + (ready ? ' live' : '')}>
+                  {ready ? <T v="slidesCount" x={m.slides.length} /> : t('soon')}
+                </span>
+              </>
+            )
+            return (
+              <li key={m.id}>
+                {ready
+                  ? <button className="module open" onClick={() => onOpen(m.id)}>{body}</button>
+                  : <div className="module locked">{body}</div>}
+              </li>
+            )
+          })}
+        </ol>
+      </div>
+    </main>
+  )
+}
+
+function ModuleView({ module, onDone }) {
   const { lang } = useLang()
   const t = useT()
   const [index, setIndex] = useState(0)
-  const slide = course.slides[index]
+  const slide = module.slides[index]
   const Slide = slideTypes[slide.type]
+  const last = index === module.slides.length - 1
   const go = useCallback(
-    (n) => setIndex((i) => Math.min(course.slides.length - 1, Math.max(0, i + n))),
-    [course.slides.length],
+    (n) => setIndex((i) => Math.min(module.slides.length - 1, Math.max(0, i + n))),
+    [module.slides.length],
   )
 
   useEffect(() => {
@@ -51,11 +89,11 @@ function CourseView({ course, onHome }) {
   }, [go, lang])
 
   return (
-    <div className="app">
-      <TopBar onHome={onHome}>
-        <span className="course" dir="ltr">{course.name}</span>
-        <nav className="steps" aria-label={t('slidesLabel')}>
-          {course.slides.map((s, i) => (
+    <>
+      <nav className="steps-bar" aria-label={t('slidesLabel')}>
+        <span className="mod-title"><T v={module.title} /></span>
+        <div className="steps">
+          {module.slides.map((s, i) => (
             <button
               key={s.id}
               className={'step' + (i === index ? ' on' : '') + (i < index ? ' done' : '')}
@@ -65,8 +103,8 @@ function CourseView({ course, onHome }) {
               {t(s.nav)}
             </button>
           ))}
-        </nav>
-      </TopBar>
+        </div>
+      </nav>
 
       <main className="stage" key={slide.id}>
         <div className="slide">
@@ -83,9 +121,30 @@ function CourseView({ course, onHome }) {
 
       <footer className="bottom">
         <button className="nav" onClick={() => go(-1)} disabled={index === 0}>{t('prev')}</button>
-        <span className="count" dir="ltr">{index + 1} / {course.slides.length}</span>
-        <button className="nav primary" onClick={() => go(1)} disabled={index === course.slides.length - 1}>{t('next')}</button>
+        <span className="count" dir="ltr">{index + 1} / {module.slides.length}</span>
+        {last
+          ? <button className="nav primary" onClick={onDone}>{t('finish')}</button>
+          : <button className="nav primary" onClick={() => go(1)}>{t('next')}</button>}
       </footer>
+    </>
+  )
+}
+
+function CourseView({ course, onHome }) {
+  const t = useT()
+  const [moduleId, setModuleId] = useState(null)
+  const module = course.modules.find((m) => m.id === moduleId)
+
+  return (
+    <div className={'app' + (module ? ' with-steps' : ' no-footer')}>
+      <TopBar onHome={onHome}>
+        <button className="course" dir="ltr" onClick={() => setModuleId(null)} aria-label={t('modules')}>
+          {course.name}
+        </button>
+      </TopBar>
+      {module
+        ? <ModuleView key={module.id} module={module} onDone={() => setModuleId(null)} />
+        : <ModuleList course={course} onOpen={setModuleId} />}
     </div>
   )
 }

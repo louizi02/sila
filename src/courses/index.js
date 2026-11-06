@@ -4,7 +4,7 @@ import { phpCourse } from './php.js'
 export const catalog = [
   {
     id: 'php', name: 'PHP', color: 'var(--pink)', snippet: '$age = 25;', course: phpCourse,
-    blurb: { fr: 'Variables, calculs et fichiers de configuration.', ar: 'المتغيرات والحساب وملفات الإعدادات.' },
+    blurb: { fr: 'Les fondamentaux, de la syntaxe de base aux fonctions.', ar: 'الأساسيات، من قواعد الكتابة إلى الدوال.' },
   },
   {
     id: 'javascript', name: 'JavaScript', color: 'var(--amber)', snippet: 'const age = 25;',

@@ -16,7 +16,9 @@ export default function Home({ onOpen }) {
                 <span className="card-head">
                   <strong dir="ltr">{item.name}</strong>
                   <span className={'badge' + (item.course ? ' live' : '')}>
-                    {item.course ? <T v="slidesCount" x={item.course.slides.length} /> : t('soon')}
+                    {item.course
+                      ? <T v="modulesCount" x={item.course.modules.length} />
+                      : t('soon')}
                   </span>
                 </span>
                 <code className="card-code">{item.snippet}</code>

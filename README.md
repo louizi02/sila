@@ -7,7 +7,7 @@
 ## Contenu actuel
 
 - Une page d'accueil avec une carte par technologie.
-- Un cours PHP interactif : variables, exercice, calculs et fichiers de configuration.
+- Un cours PHP en 8 modules, dans l'ordre de la documentation officielle. Le module 1 (syntaxe de base) est complet ; les modules 3, 6 et 7 ont déjà quelques diapositives.
 - Des lignes néon entre le code, les valeurs et les résultats.
 - Une interface en français et en arabe, de droite à gauche pour l'arabe.
 - Un affichage adapté à l'ordinateur, à la tablette et au téléphone.
