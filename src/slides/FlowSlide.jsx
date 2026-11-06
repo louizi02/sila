@@ -50,7 +50,7 @@ export default function FlowSlide({ slide }) {
       <div className="wired flow" dir="ltr">
         <Wires wires={wires} gutter />
         <section className="pane">
-          <header className="pane-head">{slide.sourceLabel}</header>
+          <header className="pane-head">{v.sourceLabel ?? slide.sourceLabel}</header>
           <pre className="lines">
             {v.lines.map((line, i) => (
               <div key={i} className="line" data-w={line.id ? 'src-' + line.id : undefined}>
@@ -61,7 +61,7 @@ export default function FlowSlide({ slide }) {
           </pre>
         </section>
         <section className="pane">
-          <header className="pane-head label" dir="auto">{t(slide.outputLabel)}</header>
+          <header className="pane-head label" dir="auto">{t(v.outputLabel ?? slide.outputLabel)}</header>
           <pre className="lines">
             {v.output.map((line, i) => (
               <div key={i} className="line" data-w={'out-' + i}>

@@ -7,8 +7,9 @@ import RulesSlide from './slides/RulesSlide.jsx'
 import CalcSlide from './slides/CalcSlide.jsx'
 import ConfigSlide from './slides/ConfigSlide.jsx'
 import FlowSlide from './slides/FlowSlide.jsx'
+import StepsSlide from './slides/StepsSlide.jsx'
 
-const slideTypes = { variable: VariableSlide, rules: RulesSlide, calc: CalcSlide, config: ConfigSlide, flow: FlowSlide }
+const slideTypes = { variable: VariableSlide, rules: RulesSlide, calc: CalcSlide, config: ConfigSlide, flow: FlowSlide, steps: StepsSlide }
 
 function TopBar({ onHome, children }) {
   const { lang, setLang } = useLang()
@@ -28,37 +29,49 @@ function TopBar({ onHome, children }) {
   )
 }
 
+export const allModules = (course) => course.parts.flatMap((p) => p.modules)
+
 function ModuleList({ course, onOpen }) {
   const t = useT()
+  let number = 0
   return (
     <main className="stage">
       <div className="slide">
         <h1><T v={course.title} /></h1>
         <p className="lead"><T v={course.lead} /></p>
-        <ol className="modules">
-          {course.modules.map((m, i) => {
-            const ready = m.slides.length > 0
-            const body = (
-              <>
-                <span className="mod-num" dir="ltr">{String(i + 1).padStart(2, '0')}</span>
-                <span className="mod-body">
-                  <strong><T v={m.title} /></strong>
-                  <span className="mod-notions"><T v={m.notions} /></span>
-                </span>
-                <span className={'badge' + (ready ? ' live' : '')}>
-                  {ready ? <T v="slidesCount" x={m.slides.length} /> : t('soon')}
-                </span>
-              </>
-            )
-            return (
-              <li key={m.id}>
-                {ready
-                  ? <button className="module open" onClick={() => onOpen(m.id)}>{body}</button>
-                  : <div className="module locked">{body}</div>}
-              </li>
-            )
-          })}
-        </ol>
+        {course.parts.map((part) => (
+          <section key={part.id} className="part">
+            <header className="part-head">
+              <h2><T v={part.title} /></h2>
+              <p><T v={part.lead} /></p>
+            </header>
+            <ol className="modules">
+              {part.modules.map((m) => {
+                const ready = m.slides.length > 0
+                const num = number++
+                const body = (
+                  <>
+                    <span className="mod-num" dir="ltr">{String(num).padStart(2, '0')}</span>
+                    <span className="mod-body">
+                      <strong><T v={m.title} /></strong>
+                      {t(m.notions) && <span className="mod-notions"><T v={m.notions} /></span>}
+                    </span>
+                    <span className={'badge' + (ready ? ' live' : '')}>
+                      {ready ? <T v="slidesCount" x={m.slides.length} /> : t('soon')}
+                    </span>
+                  </>
+                )
+                return (
+                  <li key={m.id}>
+                    {ready
+                      ? <button className="module open" onClick={() => onOpen(m.id)}>{body}</button>
+                      : <div className="module locked">{body}</div>}
+                  </li>
+                )
+              })}
+            </ol>
+          </section>
+        ))}
       </div>
     </main>
   )
@@ -133,7 +146,7 @@ function ModuleView({ module, onDone }) {
 function CourseView({ course, onHome }) {
   const t = useT()
   const [moduleId, setModuleId] = useState(null)
-  const module = course.modules.find((m) => m.id === moduleId)
+  const module = allModules(course).find((m) => m.id === moduleId)
 
   return (
     <div className={'app' + (module ? ' with-steps' : ' no-footer')}>

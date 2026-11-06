@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { T, useT } from '../i18n.jsx'
 
+// Cartes à révéler. Chaque carte montre du code (`code`) ou une phrase (`title`).
+// Avec `reveal`, ce n'est pas un exercice : la carte s'ouvre sans « Correct » ni « Incorrect ».
 export default function RulesSlide({ slide }) {
   const t = useT()
   const [opened, setOpened] = useState({})
@@ -9,18 +11,15 @@ export default function RulesSlide({ slide }) {
   return (
     <div className="stack">
       <div className="choices">
-        {slide.items.map((it) => {
-          const open = opened[it.code]
+        {slide.items.map((it, i) => {
+          const open = opened[i]
+          const state = !open ? '' : slide.reveal ? ' seen' : it.ok ? ' good' : ' wrong'
           return (
-            <button
-              key={it.code}
-              className={'choice' + (open ? (it.ok ? ' good' : ' wrong') : '')}
-              onClick={() => setOpened({ ...opened, [it.code]: true })}
-            >
-              <code>{it.code}</code>
+            <button key={i} className={'choice' + state} aria-expanded={!!open} onClick={() => setOpened({ ...opened, [i]: true })}>
+              {it.code ? <code>{it.code}</code> : <strong className="choice-title"><T v={it.title} /></strong>}
               {open
-                ? <span><b>{it.ok ? t('correct') : t('wrong')}</b> <T v={it.why} /></span>
-                : <span className="hint">{t('clickToCheck')}</span>}
+                ? <span>{!slide.reveal && <b>{it.ok ? t('correct') : t('wrong')}</b>} <T v={it.why} /></span>
+                : <span className="hint">{slide.reveal ? t('clickToOpen') : t('clickToCheck')}</span>}
             </button>
           )
         })}

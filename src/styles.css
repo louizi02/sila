@@ -229,3 +229,52 @@ button.course:hover { color: var(--fg); border-color: var(--muted); }
   .module { gap: 12px; padding: 12px 14px; }
 }
 .pane-head.label { font: 600 13px var(--body); color: var(--muted); }
+
+/* ---------- Parties du cours ---------- */
+.part { display: grid; gap: 12px; }
+.part + .part { margin-top: 16px; }
+.part-head h2 { margin: 0; font: 700 22px var(--display); color: var(--cyan); }
+.part-head p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+
+/* ---------- Cartes à révéler ---------- */
+.choice-title { font: 700 17px var(--display); }
+.choice.seen { border-color: var(--cyan); box-shadow: 0 0 14px #22e6ff33; }
+
+/* ---------- Parcours en étapes ---------- */
+.stages { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 40px; }
+.stage-node { display: grid; justify-items: center; gap: 4px; padding: 14px 10px; text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; color: var(--muted); transition: border-color .2s, box-shadow .2s; }
+.stage-node:hover { border-color: var(--cyan); }
+.stage-node strong { color: var(--fg); font: 700 15px var(--display); }
+.stage-node small { font: 12px var(--mono); overflow-wrap: anywhere; }
+.stage-num { width: 26px; height: 26px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; font: 700 13px var(--mono); }
+.stage-node.done .stage-num { border-color: var(--cyan); color: var(--cyan); }
+.stage-node.on { border-color: var(--pink); box-shadow: 0 0 16px #ff3fa466; }
+.stage-node.on .stage-num { background: var(--pink); border-color: var(--pink); color: var(--bg); }
+.stage-detail { display: grid; gap: 10px; }
+.stage-detail p { margin: 0; }
+.stage-code { padding: 10px 14px; background: var(--bg); border-radius: 4px; color: var(--lime); font-size: 14px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.stage-next { justify-self: start; }
+@media (max-width: 760px) {
+  .stages { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .stage-node { grid-template-columns: auto 1fr; justify-items: start; text-align: start; column-gap: 12px; }
+  .stage-num { grid-row: span 2; }
+}
+
+/* ---------- Animation de la carte PHP ---------- */
+.php-anim { display: flex; align-items: center; gap: 8px; padding: 12px; background: var(--bg); border-radius: 4px; font-size: 13px; min-width: 0; }
+.php-anim code { white-space: nowrap; }
+.pa-src { color: var(--pink); }
+.pa-out { color: var(--lime); opacity: .25; animation: pa-out 3.2s infinite; }
+.pa-track { position: relative; flex: 1; min-width: 18px; height: 2px; background: repeating-linear-gradient(90deg, var(--line) 0 5px, transparent 5px 9px); }
+.pa-dot { position: absolute; top: -3px; left: 0; width: 8px; height: 8px; border-radius: 50%; opacity: 0; }
+.pa-dot1 { background: var(--pink); box-shadow: 0 0 8px var(--pink); animation: pa-dot1 3.2s infinite; }
+.pa-dot2 { background: var(--lime); box-shadow: 0 0 8px var(--lime); animation: pa-dot2 3.2s infinite; }
+.pa-core { padding: 2px 8px; border: 1px solid var(--cyan); border-radius: 999px; color: var(--cyan); font: 700 12px var(--mono); animation: pa-core 3.2s infinite; }
+@keyframes pa-dot1 { 0% { left: 0; opacity: 0; } 5% { opacity: 1; } 35% { left: calc(100% - 8px); opacity: 1; } 40%, 100% { left: calc(100% - 8px); opacity: 0; } }
+@keyframes pa-core { 0%, 36% { box-shadow: none; transform: scale(1); } 45% { box-shadow: 0 0 18px var(--cyan); transform: scale(1.12); } 56%, 100% { box-shadow: none; transform: scale(1); } }
+@keyframes pa-dot2 { 0%, 54% { left: 0; opacity: 0; } 58% { opacity: 1; } 86% { left: calc(100% - 8px); opacity: 1; } 90%, 100% { left: calc(100% - 8px); opacity: 0; } }
+@keyframes pa-out { 0%, 86% { opacity: .25; text-shadow: none; } 92%, 100% { opacity: 1; text-shadow: 0 0 10px var(--lime); } }
+@media (prefers-reduced-motion: reduce) {
+  .pa-out { animation: none; opacity: 1; }
+  .pa-dot, .pa-core { animation: none; }
+}
