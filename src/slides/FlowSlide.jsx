@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Wires from '../Wires.jsx'
 import { T, useT } from '../i18n.jsx'
 
@@ -36,7 +36,8 @@ function SourcePane({ label, lines, lineId, lineClass }) {
 // Résultat fixe : chaque ligne de résultat est reliée aux lignes qui la produisent.
 function StaticView({ slide, v }) {
   const t = useT()
-  const kindOf = (id) => v.lines.find((l) => l.id === id)?.k
+  const allLines = v.files ? v.files.flatMap((f) => f.lines) : v.lines
+  const kindOf = (id) => allLines.find((l) => l.id === id)?.k
   const wires = v.output.flatMap((o, i) =>
     list(o.from).map((from) => ({
       from: 'src-' + from,
@@ -46,10 +47,16 @@ function StaticView({ slide, v }) {
     })),
   )
 
+  // Plusieurs fichiers possibles : `files: [{ label, lines }]`. Les id de lignes restent uniques.
+  const files = v.files ?? [{ label: v.sourceLabel ?? slide.sourceLabel, lines: v.lines }]
+  const srcId = (line) => (line.id ? 'src-' + line.id : undefined)
+
   return (
     <div className="wired flow" dir="ltr">
       <Wires wires={wires} gutter />
-      <SourcePane label={v.sourceLabel ?? slide.sourceLabel} lines={v.lines} lineId={(line) => (line.id ? 'src-' + line.id : undefined)} />
+      <div className="windows">
+        {files.map((f) => <SourcePane key={f.label} label={f.label} lines={f.lines} lineId={srcId} />)}
+      </div>
       <section className="pane">
         <header className="pane-head label" dir="auto">{t(v.outputLabel ?? slide.outputLabel)}</header>
         <pre className="lines">
@@ -73,6 +80,13 @@ function TraceView({ slide, v }) {
   const [playing, setPlaying] = useState(false)
   const done = step === trace.length - 1
   const current = trace[step]
+  const logRef = useRef(null)
+
+  // Le terminal défile toujours jusqu'à la dernière ligne.
+  useEffect(() => {
+    const el = logRef.current
+    if (el) el.scrollTop = el.scrollHeight
+  }, [step])
 
   useEffect(() => {
     if (!playing) return
@@ -150,7 +164,7 @@ function TraceView({ slide, v }) {
               <span className="dots"><i /><i /><i /></span>
               <span className="url" dir="auto">{t('serverWork')}</span>
             </header>
-            <div className="window-body log" aria-live="polite">
+            <div className="window-body log" aria-live="polite" ref={logRef}>
               {logs.length === 0 && <p className="k-none" dir="auto">{t('pressRun')}</p>}
               {logs.map((s, i) => (
                 <p key={i} dir="auto" data-w={i === logs.length - 1 ? 'log-last' : undefined} className={i === logs.length - 1 ? 'now' : ''}>

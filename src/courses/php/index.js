@@ -8,6 +8,10 @@ import { expressionsModule } from './expressions.js'
 import { operatorsModule } from './operators.js'
 import { controlModule } from './control.js'
 import { functionsModule } from './functions.js'
+import { oopModule } from './oop.js'
+import { namespacesModule } from './namespaces.js'
+import { enumsModule } from './enums.js'
+import { errorsModule } from './errors.js'
 
 const syntaxModule = {
   id: 'syntax',
@@ -15,9 +19,6 @@ const syntaxModule = {
   notions: tx('Balises, point-virgule, commentaires', 'الوسوم والفاصلة المنقوطة والتعليقات'),
   slides: [tagsSlide, semicolonSlide, commentsSlide, endOfFileSlide, syntaxQuiz],
 }
-
-// Modules de la deuxième partie, annoncés mais pas encore écrits.
-const later = (id, fr, ar) => ({ id, title: tx(fr, ar), notions: tx('', ''), slides: [] })
 
 export const phpCourse = {
   name: 'PHP',
@@ -33,13 +34,8 @@ export const phpCourse = {
     {
       id: 'further',
       title: tx('Aller plus loin', 'التعمق أكثر'),
-      lead: tx('La suite du cours, en préparation.', 'بقية الدورة، قيد الإعداد.'),
-      modules: [
-        later('oop', 'Classes et objets', 'الأصناف والكائنات'),
-        later('namespaces', 'Espaces de noms', 'مساحات الأسماء'),
-        later('enums', 'Énumérations', 'التعدادات'),
-        later('errors', 'Gestion des erreurs', 'معالجة الأخطاء'),
-      ],
+      lead: tx('Organiser un vrai projet : objets, espaces de noms, énumérations et erreurs.', 'تنظيم مشروع حقيقي: الكائنات ومساحات الأسماء والتعدادات والأخطاء.'),
+      modules: [oopModule, namespacesModule, enumsModule, errorsModule],
     },
   ],
 }

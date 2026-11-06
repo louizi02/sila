@@ -16,7 +16,7 @@ export const ws = ['⏎', 'ws']
 export const missing = ['', 'miss']
 export const nothing = ['', 'none']
 
-const KEYWORDS = 'echo|function|return|if|elseif|else|for|foreach|while|as|match|switch|case|break|default|const|define|global|fn|int|true|false|null|var_dump|require'
+const KEYWORDS = 'echo|function|return|if|elseif|else|for|foreach|while|as|match|switch|case|break|default|const|define|global|fn|int|string|true|false|null|var_dump|require|class|new|public|private|protected|extends|parent|enum|namespace|use|try|catch|finally|throw'
 const TOKEN = new RegExp(
   '(<\\?php|<\\?=|\\?>|\\/\\/.*$|#.*$|"(?:[^"\\\\]|\\\\.)*"|\'(?:[^\'\\\\]|\\\\.)*\'|\\$[A-Za-z_]\\w*|\\b(?:' + KEYWORDS + ')\\b|\\b\\d+(?:\\.\\d+)?\\b|__[A-Z]+__)',
 )
