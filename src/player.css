@@ -1,0 +1,38 @@
+/* Exécution pas à pas : boutons, ligne en cours, fenêtres navigateur et terminal */
+.player { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.player-count { margin-inline-start: auto; color: var(--muted); font: 13px var(--mono); font-variant-numeric: tabular-nums; }
+
+.line { border-radius: 3px; transition: background .25s, box-shadow .25s; }
+.line.ran { background: #22e6ff0a; }
+.line.run { background: #22e6ff22; box-shadow: inset 3px 0 0 var(--cyan), 0 0 16px #22e6ff44; }
+.line.run .ln { color: var(--cyan); }
+
+.windows { display: grid; gap: 16px; min-width: 0; }
+.window { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); min-width: 0; }
+.window-bar { display: flex; align-items: center; gap: 10px; padding: 7px 12px; background: #15151f; border-bottom: 1px solid var(--line); }
+.dots { display: flex; gap: 5px; flex: none; }
+.dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+.dots i:first-child { background: var(--pink); }
+.dots i:nth-child(2) { background: var(--amber); }
+.dots i:last-child { background: var(--lime); }
+.url { flex: 1; min-width: 0; padding: 2px 10px; border-radius: 4px; background: var(--bg); color: var(--muted); font: 12px var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* La page affichée a un fond clair, comme une vraie page web. */
+.browser .window-body { min-height: 64px; margin: 0; padding: 14px; background: #f4f4f7; color: #111; font: 16px/1.5 var(--body); white-space: pre-wrap; overflow-wrap: anywhere; }
+.browser .k-out { color: #111; font-weight: 400; text-shadow: none; }
+.browser .k-none { color: #6b6b75; }
+.flash { animation: flash .6s ease-out; }
+@keyframes flash { from { background: #9dff3c88; } to { background: transparent; } }
+
+.terminal .window-body { background: #050507; }
+.log { display: grid; gap: 2px; max-height: 220px; overflow-y: auto; padding: 10px 12px; font-size: 13px; }
+.log p { margin: 0; color: var(--muted); }
+.log p.now { color: var(--fg); }
+.prompt { color: var(--cyan); font: 700 12px var(--mono); }
+.memory { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 8px 12px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+.var-chip { padding: 1px 8px; border: 1px solid var(--amber); border-radius: 4px; color: var(--amber); font-size: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .flash { animation: none; }
+  .line { transition: none; }
+}

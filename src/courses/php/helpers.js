@@ -51,5 +51,9 @@ export function hl(line) {
 // Ligne de source. Avec un id, elle peut être reliée au résultat.
 export const L = (text, id, k = 'php') => (id ? { id, k, segs: hl(text) } : { segs: hl(text) })
 
+// Étape d'exécution : la ligne exécutée (numérotée à partir de 1), ce que PHP fait,
+// et éventuellement ce qui s'affiche (`out`) et l'état de la mémoire (`vars`).
+export const S = (line, log, extra = {}) => ({ line, log, ...extra })
+
 // Ligne de résultat, reliée à une ou plusieurs lignes de source.
 export const O = (text, from, kind = 'out') => ({ from, segs: [[text, kind]] })

@@ -15,7 +15,7 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
 :focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 code, pre, samp, input { font-family: var(--mono); font-variant-ligatures: none; }
 code { direction: ltr; unicode-bidi: isolate; }
-.term { font-family: var(--mono); font-variant-ligatures: none; font-size: .92em; color: var(--cyan); }
+.term { display: inline-block; direction: ltr; unicode-bidi: isolate; font-family: var(--mono); font-variant-ligatures: none; font-size: .92em; color: var(--cyan); }
 .langs { display: flex; gap: 4px; margin-inline-start: auto; }
 .lang { padding: 4px 10px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); font-size: 14px; }
 .lang:hover { color: var(--fg); }

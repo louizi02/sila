@@ -1,4 +1,4 @@
-import { DOC, L, O, tx } from './helpers.js'
+import { DOC, L, O, S, tx } from './helpers.js'
 
 const define = {
   id: 'fn', type: 'flow',
@@ -106,6 +106,25 @@ const quiz = {
     { code: 'function f() {} var_dump(f()); // NULL', ok: true, why: tx('Sans `return`, la fonction renvoie `NULL`.', 'بدون `return` ترجع الدالة `NULL`.') },
   ],
 }
+
+/* ---------- Exécution pas à pas ---------- */
+
+define.variants.find((v) => v.id === 'basic').trace = [
+  S(2, tx('La fonction `saluer` est définie. Son code ne s’exécute pas encore.', 'تعرف الدالة `saluer`، لكن كودها لا ينفذ بعد.')),
+  S(5, tx('Appel de `saluer("Salma")` : PHP entre dans la fonction.', 'استدعاء `saluer("Salma")`: يدخل PHP إلى الدالة.')),
+  S(2, tx('Le paramètre `$nom` reçoit `"Salma"`.', 'يستقبل المعامل `$nom` القيمة `"Salma"`.'), { vars: { '$nom': '"Salma"' } }),
+  S(3, tx('`return` renvoie `"Bonjour Salma"` à la ligne 5.', 'ترجع `return` النص `"Bonjour Salma"` إلى السطر 5.'), { vars: { '$nom': '"Salma"' } }),
+  S(5, tx('`echo` affiche la valeur renvoyée.', 'تعرض `echo` القيمة المرجعة.'), { out: 'Bonjour Salma' }),
+]
+
+returns.variants.find((v) => v.id === 'use').trace = [
+  S(2, tx('La fonction `carre` est définie. Son code ne s’exécute pas encore.', 'تعرف الدالة `carre`، لكن كودها لا ينفذ بعد.')),
+  S(5, tx('Appel de `carre(3)` : PHP entre dans la fonction.', 'استدعاء `carre(3)`: يدخل PHP إلى الدالة.')),
+  S(2, tx('Le paramètre `$n` reçoit 3.', 'يستقبل المعامل `$n` القيمة 3.'), { vars: { '$n': '3' } }),
+  S(3, tx('`return` renvoie `3 * 3`, soit 9.', 'ترجع `return` ناتج `3 * 3` أي 9.'), { vars: { '$n': '3' } }),
+  S(5, tx('`carre(3)` vaut 9, donc `$x = 9 + 1`.', 'قيمة `carre(3)` هي 9، إذن `$x = 9 + 1`.'), { vars: { '$x': '10' } }),
+  S(6, tx('Affiche `10`.', 'يعرض `10`.'), { vars: { '$x': '10' }, out: '10' }),
+]
 
 export const functionsModule = {
   id: 'functions',
