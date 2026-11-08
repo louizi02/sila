@@ -1,4 +1,8 @@
 import { foundationsModule } from './foundations.js'
+import { linuxModule } from './linux.js'
+import { networkModule } from './network.js'
+import { gitModule } from './git.js'
+import { scriptsModule } from './scripts.js'
 
 const tx = (fr, ar) => ({ fr, ar })
 const later = (id, title, notions) => ({ id, title, notions, slides: [] })
@@ -17,14 +21,9 @@ export const devopsCourse = {
       modules: [foundationsModule],
     },
     {
-      id: 'base', title: tx('Le socle système', 'الأساس النظامي'),
-      lead: tx('Ce qu’il faut maîtriser pour diagnostiquer une panne.', 'ما يجب إتقانه لتشخيص عطل.'),
-      modules: [
-        later('linux', tx('Linux en production', 'Linux في الإنتاج'), tx('Processus, signaux, systemd, descripteurs, permissions, journaux', 'العمليات والإشارات و systemd والواصفات والصلاحيات والسجلات')),
-        later('network', tx('Réseau pour le diagnostic', 'الشبكة للتشخيص'), tx('TCP, DNS, HTTP, TLS, ports, pannes typiques', 'TCP و DNS و HTTP و TLS والمنافذ والأعطال الشائعة')),
-        later('git', tx('Git en équipe', 'Git ضمن فريق'), tx('Trunk-based, rebase, bisect, revert, protections', 'Trunk-based و rebase و bisect و revert والحماية')),
-        later('bash', tx('Scripts fiables', 'برامج نصية موثوقة'), tx('Bash strict, idempotence, codes de sortie, erreurs', 'Bash الصارم والتكرار الآمن ورموز الخروج والأخطاء')),
-      ],
+      id: 'base', title: tx('Les bases du serveur', 'أساسيات الخادم'),
+      lead: tx('Ce qu’il faut savoir pour comprendre et réparer une panne.', 'ما يجب معرفته لفهم العطل وإصلاحه.'),
+      modules: [linuxModule, networkModule, gitModule, scriptsModule],
     },
     {
       id: 'ship', title: tx('Construire et livrer', 'البناء والتسليم'),

@@ -13,7 +13,7 @@ const list = (x) => (Array.isArray(x) ? x : x ? [x] : [])
 export function Segs({ segs }) {
   const t = useT()
   return segs.map(([text, kind], i) => (
-    <span key={i} className={'k-' + kind}>{kind === 'none' ? t('nothingSent') : text}</span>
+    <span key={i} className={'k-' + kind}>{kind === 'none' ? t('nothingSent') : typeof text === 'object' ? t(text) : text}</span>
   ))
 }
 
@@ -116,17 +116,19 @@ function TraceView({ slide, v }) {
         />
 
         <div className="windows">
-          <section className="window browser">
-            <header className="window-bar">
-              <span className="dots"><i /><i /><i /></span>
-              <span className="url">localhost:8000/{v.sourceLabel ?? slide.sourceLabel}</span>
-            </header>
-            <pre className="window-body" data-w="win-out">
-              {output
-                ? <span className={'k-out' + (current?.out != null ? ' flash' : '')} key={step}>{output}</span>
-                : <span className="k-none">{t('emptyPage')}</span>}
-            </pre>
-          </section>
+          {!v.hideBrowser && (
+            <section className="window browser">
+              <header className="window-bar">
+                <span className="dots"><i /><i /><i /></span>
+                <span className="url">localhost:8000/{v.sourceLabel ?? slide.sourceLabel}</span>
+              </header>
+              <pre className="window-body" data-w="win-out">
+                {output
+                  ? <span className={'k-out' + (current?.out != null ? ' flash' : '')} key={step}>{output}</span>
+                  : <span className="k-none">{t('emptyPage')}</span>}
+              </pre>
+            </section>
+          )}
 
           <section className="window terminal">
             <header className="window-bar">
