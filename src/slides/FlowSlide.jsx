@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Wires from '../Wires.jsx'
 import { T, useT } from '../i18n.jsx'
+import { PlayerBar, usePlayer } from './usePlayer.jsx'
 
 // Diapositive réutilisable : un fichier source, ce qu'il produit, et les lignes entre les deux.
 // Chaque version (variant) montre une façon d'écrire le même code.
@@ -8,16 +9,15 @@ import { T, useT } from '../i18n.jsx'
 
 const WIRE_COLOR = { php: 'var(--cyan)', html: 'var(--amber)', err: 'var(--red)' }
 const list = (x) => (Array.isArray(x) ? x : x ? [x] : [])
-const STEP_MS = 1100
 
-function Segs({ segs }) {
+export function Segs({ segs }) {
   const t = useT()
   return segs.map(([text, kind], i) => (
     <span key={i} className={'k-' + kind}>{kind === 'none' ? t('nothingSent') : text}</span>
   ))
 }
 
-function SourcePane({ label, lines, lineId, lineClass }) {
+export function SourcePane({ label, lines, lineId, lineClass }) {
   return (
     <section className="pane">
       <header className="pane-head">{label}</header>
@@ -76,9 +76,8 @@ function StaticView({ slide, v }) {
 function TraceView({ slide, v }) {
   const t = useT()
   const trace = v.trace
-  const [step, setStep] = useState(-1)
-  const [playing, setPlaying] = useState(false)
-  const done = step === trace.length - 1
+  const player = usePlayer(trace.length)
+  const { step } = player
   const current = trace[step]
   const logRef = useRef(null)
 
@@ -87,16 +86,6 @@ function TraceView({ slide, v }) {
     const el = logRef.current
     if (el) el.scrollTop = el.scrollHeight
   }, [step])
-
-  useEffect(() => {
-    if (!playing) return
-    if (done) {
-      setPlaying(false)
-      return
-    }
-    const id = setTimeout(() => setStep((s) => s + 1), step < 0 ? 200 : STEP_MS)
-    return () => clearTimeout(id)
-  }, [playing, step, done])
 
   const seen = trace.slice(0, step + 1)
   const output = seen.map((s) => s.out ?? '').join('')
@@ -113,29 +102,9 @@ function TraceView({ slide, v }) {
       }]
     : []
 
-  const play = () => {
-    if (done) setStep(-1)
-    setPlaying(true)
-  }
-  const next = () => {
-    setPlaying(false)
-    setStep((s) => Math.min(trace.length - 1, s + 1))
-  }
-  const reset = () => {
-    setPlaying(false)
-    setStep(-1)
-  }
-
   return (
     <>
-      <div className="player" role="group" aria-label={t('player')}>
-        {playing
-          ? <button className="nav primary" onClick={() => setPlaying(false)}>{t('pause')}</button>
-          : <button className="nav primary" onClick={play}>{t('run')}</button>}
-        <button className="nav" onClick={next} disabled={done}>{t('stepOnce')}</button>
-        <button className="nav" onClick={reset} disabled={step < 0}>{t('reset')}</button>
-        <span className="player-count" dir="ltr">{Math.max(step + 1, 0)} / {trace.length}</span>
-      </div>
+      <PlayerBar player={player} length={trace.length} />
 
       <div className="wired flow" dir="ltr">
         <Wires wires={wires} gutter />

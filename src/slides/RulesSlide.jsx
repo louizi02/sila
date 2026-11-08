@@ -15,7 +15,7 @@ export default function RulesSlide({ slide }) {
           const open = opened[i]
           const state = !open ? '' : slide.reveal ? ' seen' : it.ok ? ' good' : ' wrong'
           return (
-            <button key={i} className={'choice' + state} aria-expanded={!!open} onClick={() => setOpened({ ...opened, [i]: true })}>
+            <button key={i} className={'choice' + state} aria-expanded={!!open} onClick={() => setOpened((prev) => ({ ...prev, [i]: true }))}>
               {it.code ? <code>{it.code}</code> : <strong className="choice-title"><T v={it.title} /></strong>}
               {open
                 ? <span>{!slide.reveal && <b>{it.ok ? t('correct') : t('wrong')}</b>} <T v={it.why} /></span>

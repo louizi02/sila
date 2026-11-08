@@ -4,6 +4,7 @@ import App from './App.jsx'
 import { LangProvider } from './i18n.jsx'
 import './styles.css'
 import './player.css'
+import './devops.css'
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>

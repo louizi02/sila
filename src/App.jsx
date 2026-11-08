@@ -8,8 +8,16 @@ import CalcSlide from './slides/CalcSlide.jsx'
 import ConfigSlide from './slides/ConfigSlide.jsx'
 import FlowSlide from './slides/FlowSlide.jsx'
 import StepsSlide from './slides/StepsSlide.jsx'
+import BatchSlide from './slides/BatchSlide.jsx'
+import PipelineSlide from './slides/PipelineSlide.jsx'
+import DeploySlide from './slides/DeploySlide.jsx'
+import DoraSlide from './slides/DoraSlide.jsx'
+import IncidentSlide from './slides/IncidentSlide.jsx'
 
-const slideTypes = { variable: VariableSlide, rules: RulesSlide, calc: CalcSlide, config: ConfigSlide, flow: FlowSlide, steps: StepsSlide }
+const slideTypes = {
+  variable: VariableSlide, rules: RulesSlide, calc: CalcSlide, config: ConfigSlide, flow: FlowSlide, steps: StepsSlide,
+  batch: BatchSlide, pipeline: PipelineSlide, deploy: DeploySlide, dora: DoraSlide, incident: IncidentSlide,
+}
 
 function TopBar({ onHome, children }) {
   const { lang, setLang } = useLang()
