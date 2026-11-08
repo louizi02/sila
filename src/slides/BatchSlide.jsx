@@ -21,7 +21,6 @@ export default function BatchSlide({ slide }) {
   const failP = 1 - (1 - p) ** n
   const deploys = Math.ceil(slide.monthlyChanges / n)
   const failed = deploys * failP
-  const bisect = n === 1 ? 0 : Math.ceil(Math.log2(n))
   const defects = draw ? draw.filter(Boolean).length : 0
 
   const change = (setter) => (value) => {
@@ -84,7 +83,10 @@ export default function BatchSlide({ slide }) {
             </div>
             <div className="row"><span data-w="b-f" className="c-lime">P(fail) = 1 - (1 - p)^n</span></div>
           </pre>
-          <div className="result" data-w="b-r" aria-live="polite">{percent(failP)}</div>
+          <div className="batch-result" data-w="b-r" aria-live="polite">
+            <small dir="auto">{t('batchRisk')}</small>
+            <div className="result">{percent(failP)}</div>
+          </div>
         </div>
       </div>
 
@@ -92,7 +94,6 @@ export default function BatchSlide({ slide }) {
         <div className="metric"><span><T v="deploysPerMonth" /></span><b dir="ltr">{deploys}</b></div>
         <div className="metric"><span><T v="failedPerMonth" /></span><b dir="ltr">{failed.toFixed(1)}</b></div>
         <div className="metric"><span><T v="suspects" /></span><b dir="ltr">{n}</b></div>
-        <div className="metric"><span><T v="bisectSteps" /></span><b dir="ltr">{bisect}</b></div>
       </div>
 
       <div className="panel"><p className="note"><T v={slide.note} /></p></div>

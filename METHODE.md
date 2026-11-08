@@ -53,6 +53,10 @@ Une notion suit ces quatre étapes, dans cet ordre :
 - **Du vrai code,** qui fonctionne s'il est copié, sans pseudo-code.
 - **Des phrases courtes,** avec les mots que l'apprenant verra vraiment dans le code.
 - **Montrer aussi les erreurs,** avec le vrai message de la technologie.
+- **Le sujet peut être difficile, pas la langue.** On écrit avec des mots simples, en phrases courtes.
+- **Expliquer chaque mot technique avant de l'utiliser.**
+- **Partir d'un exemple concret,** puis donner la règle.
+- **Garder les détails avancés à part,** dans « Pour aller plus loin ».
 
 ## Comment montrer les liens
 

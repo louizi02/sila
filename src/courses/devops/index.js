@@ -7,8 +7,8 @@ export const devopsCourse = {
   name: 'DevOps',
   title: tx('Devenir ingénieur DevOps', 'كن مهندس DevOps'),
   lead: tx(
-    'Pour les développeurs qui connaissent les bases. On travaille les compromis, les pannes et les décisions réelles.',
-    'للمطورين الذين يعرفون الأساسيات. نشتغل على المفاضلات والأعطال والقرارات الحقيقية.',
+    'Un parcours complet, étape par étape, avec des exercices sur de vraies situations.',
+    'مسار كامل، خطوة بخطوة، مع تمارين على مواقف حقيقية.',
   ),
   parts: [
     {

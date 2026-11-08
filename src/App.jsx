@@ -8,6 +8,7 @@ import CalcSlide from './slides/CalcSlide.jsx'
 import ConfigSlide from './slides/ConfigSlide.jsx'
 import FlowSlide from './slides/FlowSlide.jsx'
 import StepsSlide from './slides/StepsSlide.jsx'
+import { Deeper, Words } from './slides/Explain.jsx'
 import BatchSlide from './slides/BatchSlide.jsx'
 import PipelineSlide from './slides/PipelineSlide.jsx'
 import DeploySlide from './slides/DeploySlide.jsx'
@@ -131,7 +132,9 @@ function ModuleView({ module, onDone }) {
         <div className="slide">
           <h1><T v={slide.title} /></h1>
           <p className="lead"><T v={slide.lead} /></p>
+          {slide.words && <Words words={slide.words} />}
           <Slide slide={slide} />
+          {slide.deeper && <Deeper items={slide.deeper} />}
           {slide.source && (
             <a className="source" href={slide.source.url} target="_blank" rel="noreferrer">
               <T v="docs" x={t(slide.source.label)} /> ↗

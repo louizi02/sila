@@ -80,7 +80,10 @@ function Game({ slide, onRestart }) {
             <div className="commands">
               <p className="commands-q" dir="auto"><T v={node.question} /></p>
               {[...node.options].sort((a, b) => a.cmd.localeCompare(b.cmd)).map((o) => (
-                <button key={o.cmd} className="command" onClick={() => choose(o)}>{o.cmd}</button>
+                <button key={o.cmd} className="command" onClick={() => choose(o)}>
+                  <code>{o.cmd}</code>
+                  <small dir="auto"><T v={o.does} /></small>
+                </button>
               ))}
             </div>
           )}

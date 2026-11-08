@@ -9,7 +9,7 @@ export const catalog = [
   },
   {
     id: 'devops', name: 'DevOps', color: 'var(--amber)', snippet: 'git push', anim: 'devops', course: devopsCourse,
-    blurb: { fr: 'CI/CD, conteneurs, infrastructure, production et incidents, au niveau professionnel.', ar: 'CI/CD والحاويات والبنية التحتية والإنتاج والحوادث، بمستوى احترافي.' },
+    blurb: { fr: 'Mettre une application en ligne, la garder en marche et la réparer.', ar: 'نشر التطبيق وإبقاؤه يعمل وإصلاحه.' },
   },
   {
     id: 'javascript', name: 'JavaScript', color: 'var(--amber)', snippet: 'const age = 25;',

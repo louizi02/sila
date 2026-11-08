@@ -64,6 +64,19 @@
 .commands { display: grid; gap: 8px; }
 .commands-q { margin: 0; font-weight: 600; }
 .command { padding: 10px 12px; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; color: var(--lime); font: 13px var(--mono); overflow-wrap: anywhere; }
+.command { display: grid; gap: 3px; }
+.command code { color: var(--lime); overflow-wrap: anywhere; }
+.command small { color: var(--muted); font: 13px var(--body); }
+.batch-result { display: grid; gap: 2px; justify-self: start; }
+.batch-result small { color: var(--muted); font: 13px var(--body); }
+.words { padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+.words h2 { margin: 0 0 8px; font: 700 15px var(--display); color: var(--amber); }
+.words dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 8px 20px; }
+.words dt { color: var(--cyan); font-weight: 600; font-size: 14px; }
+.words dd { margin: 0; font-size: 14px; color: var(--fg); }
+.deeper { padding: 10px 16px; border: 1px dashed var(--line); border-radius: 6px; color: var(--muted); }
+.deeper summary { cursor: pointer; color: var(--cyan); font-weight: 600; }
+.deeper ul { margin: 10px 0 2px; padding-inline-start: 20px; display: grid; gap: 8px; font-size: 14px; }
 .command:hover { border-color: var(--lime); box-shadow: 0 0 10px #9dff3c44; }
 .coach.good { border-color: var(--lime); }
 .coach.good strong { color: var(--lime); }
