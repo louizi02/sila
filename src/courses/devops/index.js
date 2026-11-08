@@ -1,11 +1,13 @@
+import { tx } from './helpers.js'
 import { foundationsModule } from './foundations.js'
 import { linuxModule } from './linux.js'
 import { networkModule } from './network.js'
 import { gitModule } from './git.js'
 import { scriptsModule } from './scripts.js'
-
-const tx = (fr, ar) => ({ fr, ar })
-const later = (id, title, notions) => ({ id, title, notions, slides: [] })
+import { cdModule, ciModule, composeModule, dockerModule } from './ship.js'
+import { ansibleModule, cloudModule, nginxModule, terraformModule } from './infra.js'
+import { devsecopsModule, gitopsModule, k8sModule, observabilityModule, sreModule } from './production.js'
+import { careerModule, projectModule } from './career.js'
 
 export const devopsCourse = {
   name: 'DevOps',
@@ -15,54 +17,11 @@ export const devopsCourse = {
     'مسار كامل، خطوة بخطوة، مع تمارين على مواقف حقيقية.',
   ),
   parts: [
-    {
-      id: 'understand', title: tx('Comprendre', 'الفهم'),
-      lead: tx('Le problème que DevOps résout, avant les outils.', 'المشكلة التي يحلها DevOps قبل الأدوات.'),
-      modules: [foundationsModule],
-    },
-    {
-      id: 'base', title: tx('Les bases du serveur', 'أساسيات الخادم'),
-      lead: tx('Ce qu’il faut savoir pour comprendre et réparer une panne.', 'ما يجب معرفته لفهم العطل وإصلاحه.'),
-      modules: [linuxModule, networkModule, gitModule, scriptsModule],
-    },
-    {
-      id: 'ship', title: tx('Construire et livrer', 'البناء والتسليم'),
-      lead: tx('Du code source à l’artefact déployé en sécurité.', 'من الكود المصدري إلى حزمة منشورة بأمان.'),
-      modules: [
-        later('docker', tx('Docker en profondeur', 'Docker بعمق'), tx('Namespaces, cgroups, couches, multi-stage, digest', 'Namespaces و cgroups والطبقات و multi-stage والبصمة')),
-        later('compose', tx('Compose et registres', 'Compose والسجلات'), tx('Réseaux, volumes, santé, registres, signatures', 'الشبكات والأقراص والصحة والسجلات والتوقيعات')),
-        later('ci', tx('Intégration continue', 'التكامل المستمر'), tx('Cache, matrices, secrets, tests instables, GitLab CI', 'التخزين المؤقت والمصفوفات والأسرار والاختبارات غير المستقرة و GitLab CI')),
-        later('cd', tx('Déploiement continu', 'النشر المستمر'), tx('Stratégies, migrations expand/contract, feature flags, rollback', 'الاستراتيجيات وترحيل expand/contract ومفاتيح الميزات والتراجع')),
-      ],
-    },
-    {
-      id: 'infra', title: tx('Infrastructure', 'البنية التحتية'),
-      lead: tx('Une infrastructure reproductible, décrite comme du code.', 'بنية تحتية قابلة لإعادة الإنشاء، موصوفة ككود.'),
-      modules: [
-        later('nginx', tx('Nginx et reverse proxy', 'Nginx والوسيط العكسي'), tx('Upstreams, TLS, délais, 502 et 504, équilibrage', 'Upstreams و TLS والمهل و 502 و 504 وموازنة الحمل')),
-        later('cloud', tx('Le cloud', 'السحابة'), tx('IAM, VPC, calcul, stockage, coûts, zones', 'IAM و VPC والحوسبة والتخزين والتكاليف والمناطق')),
-        later('terraform', tx('Terraform', 'Terraform'), tx('State, plan, modules, dérive, verrouillage, OpenTofu', 'الحالة والخطة والوحدات والانحراف والقفل و OpenTofu')),
-        later('ansible', tx('Ansible', 'Ansible'), tx('Inventaires, idempotence, rôles, secrets', 'المخزون والتكرار الآمن والأدوار والأسرار')),
-      ],
-    },
-    {
-      id: 'production', title: tx('Production', 'الإنتاج'),
-      lead: tx('Faire tourner et réparer des systèmes à l’échelle.', 'تشغيل الأنظمة وإصلاحها على نطاق واسع.'),
-      modules: [
-        later('k8s', tx('Kubernetes', 'Kubernetes'), tx('Contrôleurs, pods, services, sondes, ressources, diagnostic', 'المتحكمات و pods والخدمات والمسابير والموارد والتشخيص')),
-        later('gitops', tx('Helm et GitOps', 'Helm و GitOps'), tx('Charts, réconciliation, Argo CD, promotion', 'Charts والمزامنة و Argo CD والترقية')),
-        later('observability', tx('Observabilité', 'قابلية المراقبة'), tx('Métriques, logs, traces, Prometheus, alertes sur symptômes', 'المقاييس والسجلات والتتبع و Prometheus والتنبيه على الأعراض')),
-        later('devsecops', tx('DevSecOps', 'DevSecOps'), tx('Secrets, moindre privilège, scans, chaîne d’approvisionnement, SLSA', 'الأسرار وأقل الصلاحيات والفحص وسلسلة التوريد و SLSA')),
-        later('sre', tx('SRE et incidents', 'SRE والحوادث'), tx('SLO, budget d’erreur, astreinte, post-mortem', 'SLO وميزانية الأخطاء والمناوبة وتحليل الحوادث')),
-      ],
-    },
-    {
-      id: 'professional', title: tx('Devenir professionnel', 'الاحتراف'),
-      lead: tx('Prouver ce que vous savez faire.', 'إثبات ما تستطيع فعله.'),
-      modules: [
-        later('project', tx('Projet complet', 'مشروع كامل'), tx('Déployer et exploiter Sila de bout en bout', 'نشر Sila وتشغيله من البداية إلى النهاية')),
-        later('career', tx('Portfolio et entretiens', 'ملف الأعمال والمقابلات'), tx('Certifications, questions de conception, scénarios de panne', 'الشهادات وأسئلة التصميم وسيناريوهات الأعطال')),
-      ],
-    },
+    { id: 'understand', title: tx('Comprendre', 'الفهم'), lead: tx('Le problème que DevOps résout, avant les outils.', 'المشكلة التي يحلها DevOps قبل الأدوات.'), modules: [foundationsModule] },
+    { id: 'base', title: tx('Les bases du serveur', 'أساسيات الخادم'), lead: tx('Ce qu’il faut savoir pour comprendre et réparer une panne.', 'ما يجب معرفته لفهم العطل وإصلاحه.'), modules: [linuxModule, networkModule, gitModule, scriptsModule] },
+    { id: 'ship', title: tx('Construire et livrer', 'البناء والتسليم'), lead: tx('Du code source jusqu’à la mise en ligne sans danger.', 'من الكود المصدري إلى النشر الآمن.'), modules: [dockerModule, composeModule, ciModule, cdModule] },
+    { id: 'infra', title: tx('Infrastructure', 'البنية التحتية'), lead: tx('Créer ses serveurs avec du code, pour pouvoir tout refaire.', 'إنشاء الخوادم بالكود لإعادة كل شيء عند الحاجة.'), modules: [nginxModule, cloudModule, terraformModule, ansibleModule] },
+    { id: 'production', title: tx('Production', 'الإنتاج'), lead: tx('Faire tourner, surveiller et réparer de vrais systèmes.', 'تشغيل أنظمة حقيقية ومراقبتها وإصلاحها.'), modules: [k8sModule, gitopsModule, observabilityModule, devsecopsModule, sreModule] },
+    { id: 'professional', title: tx('Devenir professionnel', 'الاحتراف'), lead: tx('Prouver ce que vous savez faire.', 'إثبات ما تستطيع فعله.'), modules: [projectModule, careerModule] },
   ],
 }

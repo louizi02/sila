@@ -16,10 +16,11 @@ import DoraSlide from './slides/DoraSlide.jsx'
 import IncidentSlide from './slides/IncidentSlide.jsx'
 import PermsSlide from './slides/PermsSlide.jsx'
 import GitSlide from './slides/GitSlide.jsx'
+import BudgetSlide from './slides/BudgetSlide.jsx'
 
 const slideTypes = {
   variable: VariableSlide, rules: RulesSlide, calc: CalcSlide, config: ConfigSlide, flow: FlowSlide, steps: StepsSlide,
-  batch: BatchSlide, pipeline: PipelineSlide, deploy: DeploySlide, dora: DoraSlide, incident: IncidentSlide, perms: PermsSlide, git: GitSlide,
+  batch: BatchSlide, pipeline: PipelineSlide, deploy: DeploySlide, dora: DoraSlide, incident: IncidentSlide, perms: PermsSlide, git: GitSlide, budget: BudgetSlide,
 }
 
 function TopBar({ onHome, children }) {
